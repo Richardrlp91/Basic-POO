@@ -71,3 +71,35 @@ const richi = new Student2({
     }
 );
 console.log(richi);
+
+class Estudiante{
+    constructor({
+        name,
+        email,
+        username,
+        twitter = undefined,
+        instagram = undefined,
+        facebook = undefined,
+        aprovedCourses = [],
+        learningsPaths=[],
+    }){
+    this.name= name,
+    this.email=email,
+    this.username=username,
+    this.socialMedia={
+        twitter,
+        instagram,
+        facebook,
+    };
+    this.twitter=twitter;
+    this.instagram=instagram;
+    this.facebook=facebook;
+    this.aprovedCourses=aprovedCourses;
+    this.learningsPaths=learningsPaths;
+    }
+}
+const Ricardo = new Estudiante({
+    name:"Ricardo",
+    username: "RichieLePi",
+    email: "richardrlp91@gmail.com",
+})

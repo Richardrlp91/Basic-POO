@@ -129,7 +129,7 @@ const escuelaData = new LearningPath({
 const EscuelaVgs = new LearningPath({
     name: "Escuela de Videojuegos",
     courses:[
-        cursoProgBasica
+        cursoProgBasica,
         "Curso Unreal",
     ]
 })
@@ -137,8 +137,16 @@ const EscuelaVgs = new LearningPath({
 //*todo --- ABSTRACCIÓN
 class Course{
     constructor({name, classes=[]}){
-        this.name = name;
+        this._name = name;
         this.classes = classes;
+    }
+    //? CONCEPTOS DE GETTERS Y SETTERS PARA ENCAPSULAR LAS PROPIEDADES.
+    get name(){return this._name}
+    set name(nuevoNombre){
+        //* USAMOS CONDICIONALES PARA PROTEGER LA REASIGNACIÓN DE LAS PROPIEDADES.
+        if(nuevoNombre==='curso Malito de Programación básica')
+        console.warn('No es un nombre válido.')
+        else this._name = nuevoNombre;
     }
 }
 class Classes{

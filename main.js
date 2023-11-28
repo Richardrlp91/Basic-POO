@@ -103,3 +103,60 @@ const Ricardo = new Estudiante({
     username: "RichieLePi",
     email: "richardrlp91@gmail.com",
 })
+class LearningPath{
+    constructor({name, courses=[]}){
+        this.name = name;
+        this.courses = courses;
+    }
+}
+
+const esculaWeb = new LearningPath({
+    name: "Escuela de Desarrollo Web",
+    courses:[
+        "Curso Definitivo de HTML y CSS",
+        "Curso práctico de HTML y CSS",
+    ]
+})
+const escuelaData = new LearningPath({
+    name: "Escuela de Data Science",
+    courses:[
+        cursoProgBasica,
+        cursoDefinitivoHTML,
+        "Curso DataBusiness",
+        "Curso Dataviz"
+    ]
+})
+const EscuelaVgs = new LearningPath({
+    name: "Escuela de Videojuegos",
+    courses:[
+        cursoProgBasica
+        "Curso Unreal",
+    ]
+})
+
+//*todo --- ABSTRACCIÓN
+class Course{
+    constructor({name, classes=[]}){
+        this.name = name;
+        this.classes = classes;
+    }
+}
+class Classes{
+    constructor({name, classes=[]}){
+        this.name = name;
+        this.classes = classes;
+    }
+}
+
+
+const cursoProgBasica = new Course({
+    name:"Curso Grátis de programación Básica",
+})
+const cursoDefinitivoHTML = new Course({
+    name:"Curso definitivo de HTML y CSS",
+})
+
+//todo -- ENCAPSULAMIENTO
+//? * ESCONDER MÉTODOS Y ATRIBUTOS.(EN JS ES DIFÍCIL LOGRARLO.)
+//? * NO PERMITIR LA ALTERACIÓN DE MÉTODOS Y ATRIBUTOS.
+

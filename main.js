@@ -1,4 +1,5 @@
 //*todo -- Creando un Objeto literal
+
 const laura ={
     name:"Natalia",
     age:"32",
@@ -60,7 +61,7 @@ class Student2{
     }
 }
 //* Nombramos los parametros como un objeto literal, sin importar el orden.
-const richi = new Student2({
+const richi = new FreeStudent({
     name: "Ricardo",
     age: 32,
     cursosAprobados:[
@@ -72,7 +73,8 @@ const richi = new Student2({
 );
 console.log(richi);
 
-class Estudiante{
+
+class Student{
     constructor({
         name,
         email,
@@ -97,8 +99,67 @@ class Estudiante{
     this.aprovedCourses=aprovedCourses;
     this.learningsPaths=learningsPaths;
     }
+    publicarComentario(commentContent){
+        const comment = new comment({
+            content: commentContent,
+            studentName: this.name,
+            studentRole: 'profesor',
+        });
+        comment.publicar();
+    }
 }
-const Ricardo = new Estudiante({
+
+//todo -- HERENCIA
+class FreeStudent extends Student {
+    constructor(props){
+        super(props);
+    }
+    approveCourse(newCourse){
+        if(newCourse.isFree){
+            this.approvedCourse.push(newCourse);
+        }else{
+            console.warn('Solo puedes tomar cursos abiertos.')
+        }
+    }
+}
+class BasicStudent extends Student {
+    constructor(props){
+        super(props);
+    }
+
+    approveCourse(newCourse){
+        if(newCourse.lang !=='english'){
+            this.approvedCourse.push(newCourse);
+        }else{
+            console.warn('Solo puedes tomar cursos en español.')
+        }
+    }
+}
+class ExpertStudent extends Student {
+    constructor(props){
+        super(props);
+}
+approveCourse(newCourse){
+    this.approvedCourse.push(newCourse);
+}
+}
+
+class teacherStudent extends Student {
+    constructor(props){
+        super(props);
+}
+approveCourse(newCourse){
+    this.approvedCourse.push(newCourse);
+}
+
+
+}
+
+
+
+
+
+const Ricardo = new FreeStudent({
     name:"Ricardo",
     username: "RichieLePi",
     email: "richardrlp91@gmail.com",
@@ -136,9 +197,17 @@ const EscuelaVgs = new LearningPath({
 
 //*todo --- ABSTRACCIÓN
 class Course{
-    constructor({name, classes=[]}){
+    constructor({
+        name, 
+        classes=[],
+        isFree=false,
+        lang='spanish',
+    
+    }){
         this._name = name;
         this.classes = classes;
+        this.isFree = isFree;
+        this.lang = lang;
     }
     //? CONCEPTOS DE GETTERS Y SETTERS PARA ENCAPSULAR LAS PROPIEDADES.
     get name(){return this._name}
@@ -159,12 +228,180 @@ class Classes{
 
 const cursoProgBasica = new Course({
     name:"Curso Grátis de programación Básica",
+    isFree:true,
 })
 const cursoDefinitivoHTML = new Course({
     name:"Curso definitivo de HTML y CSS",
+    lang:'english',
 })
+const cursoPracticoHTML = new Course({
+    name:"Curso Practico de HTML y CSS",
+})
+
 
 //todo -- ENCAPSULAMIENTO
 //? * ESCONDER MÉTODOS Y ATRIBUTOS.(EN JS ES DIFÍCIL LOGRARLO.)
 //? * NO PERMITIR LA ALTERACIÓN DE MÉTODOS Y ATRIBUTOS.
 
+const miguelito = new FreeStudent({
+    name:'Miguelito',
+    username:'miguelitofeliz',
+    email:'miguelito@gmail.com',
+    instagram:'migelito_feliz',
+    learningsPaths:[
+        cursoProgBasica,
+    ]
+})
+const andrea = new BasicStudent({
+    name:'andrea',
+    username:'andreafeliz',
+    email:'andrea@gmail.com',
+    instagram:'andrea_feliz',
+    learningsPaths:[
+        cursoPracticoHTML,
+    ]
+})
+const freddy = new BasicStudent({
+    name:'Freddy Vega',
+    username:'freddier',
+    email:'andrea@gmail.com',
+    instagram:'freddiervega',
+    learningsPaths:[
+        cursoDefinitivoHTML,
+    ]
+})
+//todo * Object.defineProperty
+/*
+? Con esta propiedad se pueden definir nuevas propiedades a nuestro objeto. Así mismo, se puede configurar ciertas características de la propiedad tales como:
+
+? Configurable: Esta indica si la propiedad puede ser borrada o eliminada
+? Enumerable: Indica si la propiedad puede ser mostrada en la enumeración de las mismas. Existen ciertos métodos que toman como referencia este valor para mostrar la propiedad
+? Writable: Esta indica si la propiedad puede ser modificada con el operador de asignación (=)
+*/
+const person = {
+    userName: 'zajithcorro',
+    age: 26,
+    approvedCourses: ['Curso Profesional de Git y Github'],
+    addApprovedCourse (course) {
+      console.log(this)
+      this.approvedCourses.push(course);
+    }
+  }
+  //* Si queremos modificar un propiedad que tienen writable: false no permitirá que su valor sea modificado ⬇️
+  Object.defineProperty(person, "mail", {
+    value: "zajith@outlook.com",
+    writable: false,
+    enumerable: true,
+    configurable: true
+})
+person.mail // 'zajith@outlook.com'
+person.mail = 'zajith@gmail.com' // 'zajith@gmail.com'
+person.mail // // 'zajith@outlook.com'
+
+//* Object.keys solo muestra las propiedades que tienen enumerable: true. A diferencia de Object.getOwnPropertyNames que muestra todas las propiedades⬇️
+
+Object.defineProperty(person, "twitter", {
+    value: "zajithcorro",
+    writable: true,
+    enumerable: false,
+    configurable: true
+})
+Object.keys(person) // [ 'userName', 'age', 'approvedCourses', 'addApprovedCourse', 'mail', 'platziPoints' ]
+Object.getOwnPropertyNames(person) // [ 'userName', 'age', 'approvedCourses', 'addApprovedCourse', 'mail', 'twitter', 'platziPoints', 'gender' ]
+
+//* Si queremos eliminar propiedad que tienen configurable: false no permitirá que sea borrada del objeto.
+Object.defineProperty(person, "platziPoints", {
+    value: 7500,
+    writable: true,
+    enumerable: true,
+    configurable: false
+})
+delete person.platziPoints // false
+delete person.userName // true
+
+Object.defineProperty(person, "gender", {
+    value: "male",
+    writable: false,
+    enumerable: false,
+    configurable: false
+})
+/* 
+todo -- Object.freeze()
+
+? Este método congela un objeto que sea pasado. Es decir:
+
+? Impide que se le agreguen nuevas propiedades
+?Impide que sean eliminas propiedades ya existentes
+?Impide que sus las propiedades internas (writable, enumerable y configurable) sean modificadas
+*/
+const person = {
+    userName: 'zajithcorro',
+    age: 26,
+    approvedCourses: ['Curso Profesional de Git y Github'],
+    addApprovedCourse (course) {
+      console.log(this)
+      this.approvedCourses.push(course);
+    }
+  }
+  
+  Object.freeze(person)
+  
+  person.mail = 'zajith@mail.com'
+  Object.keys(person) // [ 'userName', 'age', 'approvedCourses', 'addApprovedCourse' ]
+  
+  person.age = 27
+  person.age // 26
+  
+  delete person.userName // false
+
+  /*
+  todo -- Object.seal()
+
+? Este método sella un objeto que sea pasada. Es decir:
+
+? Impide que nuevas propiedades sean agregadas
+? Cambia en todas las propiedades configurable: false, con lo que impide que sean borradas.
+? Las propiedades aún puede ser modificadas, ya que writable esta true
+  */
+const person = {
+    userName: 'zajithcorro',
+    age: 26,
+    approvedCourses: ['Curso Profesional de Git y Github'],
+    addApprovedCourse (course) {
+      console.log(this)
+      this.approvedCourses.push(course);
+    }
+  }
+  
+  Object.seal(person)
+  
+  person.mail = 'zajith@mail.com'
+  Object.keys(person) // [ 'userName', 'age', 'approvedCourses', 'addApprovedCourse' ]
+  
+  delete person.userName // false
+  
+  person.age = 27
+  person.age // 27
+
+
+
+
+//todo -- POLIMORFISMO.
+class Comment{
+    constructor({
+        content,
+        studentName,
+        studentRole = 'estudiante',
+    }){
+        this.content = content;
+        this.studentName = studentName;
+        this.studentRole = studentRole;
+        this.likes =0;
+    }
+publicar(){
+    console.log(this.studentName+' ('+this.studentRole+')');
+    console.log(this.likes+' likes');
+    console.log(this.content);
+}
+
+}

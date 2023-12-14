@@ -383,8 +383,44 @@ const person = {
   person.age = 27
   person.age // 27
 
+const obj1 = {
+    a: 'a',
+    b: 'b',
+    c: {
+        d: 'd',
+        e: 'e',
+    },
+    editA(){
+        this.a= 'AAAAA';
+    }
+}
 
+function DeepCopy(subjet){
+    let copySubjet;
+    for(key in subjet){
+        if (keyIsObject) { // Si es verdad que hay un objeto dentro...
+            // Invocamos recursivamente la misma función:
+            copySubject[key] = deepCopy(subject[key]); // 👀🔄
+      } else { // Sino...
+        if (subjectIsArray) { // Si el parámetro recibido por la función deepCopy es Array...
+              // Agregamos el elemento a la variable a retornar al final de la función:
+                      copySubject.push(subject[key]);
+        } else { 
+                  // sino, significa que es objeto el parámetro y además no hay objetos anidados
+                  // en el elemento actual dentro del recorrido del bucle for, por tanto, asignamos
+                  // dicho elemento como valor a la propiedad correspondiente:
+          copySubject[key] = subject[key];
+        }
+    }
+    
+  }
 
+    return copySubjet;
+}
+/*
+const stringifiedComplexObj =JSON.stringify(obj1);
+const obj2 = JSON.parse(stringifiedComplexObj);
+*/
 
 //todo -- POLIMORFISMO.
 class Comment{
